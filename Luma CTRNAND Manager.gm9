@@ -1,0 +1,69 @@
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.0(EN)"
+set PREVIEW_COLOR_ACTIVE 11CD9A
+set PREVIEW_COLOR_CODE 11CD9A
+set PREVIEW_COLOR_COMMENT 11CD9A
+@start
+labelsel -o -s "Choose an Option" OPT_*
+set ERRORMSG ""
+goto start
+#######Install Luma########
+@OPT_Setup_Luma_to_CTRNAND
+
+if	not ask "Setup Luma to CTRNAND ?"
+	goto start
+end
+if	allow -a 1:
+	cp -w -o -s 0:/boot.firm 1:/boot.firm
+	cp -w -o -s 0:/luma 1:/rw/luma
+	echo "Luma Setup Succsess"
+	goto start
+else
+	echo "Permissions denied. Aborting."
+	goto start
+end
+
+#######Remove Luma#########
+@OPT_Remove_Luma_from_the_CTRNAND
+
+if not ask "Remove luma from the CTRNAND ?"
+	goto start
+end
+if	allow -a 1:
+	if not rm 1:/boot.firm
+		echo "Luma is not installed on the CTRNAND"
+		goto start
+	end	
+	rm 1:/rw/luma
+	echo "Luma has been removed from the CTRNAND"
+	goto start
+else
+	echo "Permissions denied. Aborting."
+	goto start
+end
+
+#######Boot Luma########
+@OPT_Boot_Luma
+
+labelsel -o -s "Boot Luma from :" Boot_*
+goto start
+
+#######Boot Luma From SD#######
+@Boot_SD
+
+if not ask "Boot Luma from the SD?"
+	goto OPT_Boot_Luma
+end
+boot 0:/boot.firm
+
+#######Boot Luma From CTRNAND#####
+@Boot_CTRNAND
+
+if not ask "Boot Luma from the CTRNAND?"
+	goto OPT_Boot_Luma
+end
+if not boot 1:/boot.firm
+	echo "Luma is not installed on the CTRNAND"
+	goto OPT_Boot_Luma
+end
+#######Exit#########
+@OPT_Exit
