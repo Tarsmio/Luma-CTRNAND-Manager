@@ -8,3 +8,7 @@ Il permet de:
 * Lancer Luma 
   * Depuis la carte SD
   * Depuis CTRNAND
+
+Luma CTRNAND MANAGER est disponible en plusieurs langue
+* English
+* Français
