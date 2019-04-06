@@ -1,4 +1,4 @@
-# Luma-CTRNAND-Manger
+# Luma-CTRNAND-Manager
 
 Luma CTRNAND Manager est un script pour godmode9 qui permet de gerer luma sur CTRNAND
 
