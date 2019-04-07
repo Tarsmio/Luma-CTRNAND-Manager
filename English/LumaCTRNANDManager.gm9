@@ -1,18 +1,32 @@
-set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.0(EN)"
+#########Cache Creation##########
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n-Cache Creation"
+set CACHE "0:/LMCD_cache"
+if not find $[CACHE] NULL
+	mkdir $[CACHE]
+end
+dumptxt $[CACHE]/credits.txt "Creator : Tarsmio\nGitHub : https://github.com/Tarsmio/Luma-CTRNAND-Manager/"
+dumptxt $[CACHE]/welcome.txt "Welcome to Luma CTRNAND Manger\nCreate by Tarsmio\nVersion : 1.1\nCompatible withe GodMode9 1.8.0+\nGitHub : https://github.com/Tarsmio/Luma-CTRNAND-Manager/"
+dumptxt $[CACHE]/patch_note.txt "PATCHE NOTE LUMA CTRNAND MANAGER 1.1\n\nNew :\n-Custom boot luma\n-Welcome texte\n-Other Categorie :\n  -Credits\n  -Patch Note\n-Pathe bar\n\nChange\n-Removing the french version"
+#########Main##########
+textview $[CACHE]/welcome.txt
+@start
+
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu"
 set PREVIEW_COLOR_ACTIVE 11CD9A
 set PREVIEW_COLOR_CODE 11CD9A
 set PREVIEW_COLOR_COMMENT 11CD9A
-@start
+
 labelsel -o -s "Choose an Option" OPT_*
 set ERRORMSG ""
 goto start
 #######Install Luma########
 @OPT_Setup_Luma_to_CTRNAND
-
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu>Setup Luma to CTRNAND"
 if	not ask "Setup Luma to CTRNAND ?"
 	goto start
 end
 if	allow -a 1:
+	set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu>Setup Luma to CTRNAND\n-Setuping Luma"
 	cp -w -o -s 0:/boot.firm 1:/boot.firm
 	cp -w -o -s 0:/luma 1:/rw/luma
 	echo "Luma Setup Succsess"
@@ -24,11 +38,12 @@ end
 
 #######Remove Luma#########
 @OPT_Remove_Luma_from_the_CTRNAND
-
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu>Remove Luma from the CTRNAND"
 if not ask "Remove luma from the CTRNAND ?"
 	goto start
 end
 if	allow -a 1:
+	set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu>Remove Luma from the CTRNAND\n-Removing Luma"
 	if not rm 1:/boot.firm
 		echo "Luma is not installed on the CTRNAND"
 		goto start
@@ -43,27 +58,62 @@ end
 
 #######Boot Luma########
 @OPT_Boot_Luma
-
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu>Boot Luma"
 labelsel -o -s "Boot Luma from :" Boot_*
 goto start
 
 #######Boot Luma From SD#######
 @Boot_SD
-
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu>Boot Luma>SD"
 if not ask "Boot Luma from the SD?"
 	goto OPT_Boot_Luma
 end
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu>Boot Luma>SD\n-Removing cache"
+rm $[CACHE]
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu>Boot Luma>SD\n-Booting Luma"
 boot 0:/boot.firm
-
 #######Boot Luma From CTRNAND#####
 @Boot_CTRNAND
-
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu>Boot Luma>CTRNAND"
 if not ask "Boot Luma from the CTRNAND?"
 	goto OPT_Boot_Luma
 end
-if not boot 1:/boot.firm
+if not find 1:/boot.firm NULL
 	echo "Luma is not installed on the CTRNAND"
 	goto OPT_Boot_Luma
 end
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu>Boot Luma>CTRNAND\n-Removing cache"
+rm $[CACHE]
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu>Boot Luma>CTRNAND\n-Booting Luma"
+boot 1:/boot.firm
+
+#######Boot Luma custom########
+@Boot_Custom
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu>Boot Luma>Custom"
+if not filesel -x "Please select .firm of luma" 0:/*fir* LUMAD
+	goto OPT_Boot_Luma
+end
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu>Boot Luma>Custom\n-Removing cache"
+rm $[CACHE]
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu>Boot Luma>Custom\n-Booting Luma"
+boot $[LUMAD]
+
+goto OPT_Boot_Luma
+#######Credits######
+@OPT_Other
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu>Other"
+labelsel -o -s "Choose an Option" Other_*
+goto start
+#######Credits######
+@Other_Credits
+textview $[CACHE]/credits.txt
+goto OPT_Other
+#######Patch Note##
+@Other_Patch_note
+textview $[CACHE]/patch_note.txt
+goto OPT_Other
 #######Exit#########
 @OPT_Exit
+####Remove Cache####
+set PREVIEW_MODE "Luma CTRNAND Manager\nBy Tarsmio\n\nv.1.1\n>Menu>Exit\n-Removing cache"
+rm $[CACHE]
