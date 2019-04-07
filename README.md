@@ -1,14 +1,12 @@
 # Luma-CTRNAND-Manager
 
-Luma CTRNAND Manager est un script pour godmode9 qui permet de gerer luma sur CTRNAND
+Luma CTRNAND Manager is a script for GodMode9
 
-Il permet de:
-* Installé Luma sur CTRNAND
-* Déinstallé luma de CTRNAND
-* Lancer Luma 
-  * Depuis la carte SD
-  * Depuis CTRNAND
+Feature:
+* Setup luma to CTRNAND
+* Remove luma from CTRNAND
+* Boot Luma 
+  * Frome SD
+  * From CTRNAND
+  * Custom path
 
-Luma CTRNAND MANAGER est disponible en plusieurs langue
-* English
-* Français
