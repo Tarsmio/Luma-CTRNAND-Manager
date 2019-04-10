@@ -6,7 +6,7 @@ Feature:
 * Setup luma to CTRNAND
 * Remove luma from CTRNAND
 * Boot Luma 
-  * Frome SD
+  * From SD
   * From CTRNAND
   * Custom path
 
